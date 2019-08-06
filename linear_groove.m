@@ -1,8 +1,8 @@
 clc;
 
-Lx  = 0;     %.. groove length (X)
-Ly  = 40;     %.. groove length (Y)
-h   = 3.25;    %.. square depth
+Lx  = 38.1;     %.. groove length (X)
+Ly  = 0;     %.. groove length (Y)
+h   = 9.5/2;    %.. square depth
 Fl  = 150;   %.. linear feedrate
 Fd  = 10;    %.. plunge feedrate
 zinc = 0.3;  %.. depth increment
@@ -10,9 +10,9 @@ zinc = 0.3;  %.. depth increment
 fprintf('N1 G21 (absolute)\n');
 fprintf('N2 G90 (metric)\n');
 fprintf('N3 G00 Z1\n');
-fprintf('N3 G00 X0 Y0\n');
+fprintf('N4 G00 X0 Y0\n');
 
-N = 4;
+N = 5;
 
 zdiv = h / zinc;
 zdiv = round(zdiv, 0);

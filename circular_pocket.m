@@ -1,19 +1,25 @@
 clc;
 
+addheader = true;
+startatorigin = true;
+addfooter = true;
+
+N = 1;             %.. starting line number
+
 X0   = 0;           %.. circle center (X)
 Y0   = 0;           %.. circle center (Y)
 Z0   = 0;               %.. surface plane
 
-Do   = 21.75;        %.. outer pocket diameter
+Do   = 23.25;        %.. outer pocket diameter
 Di   = 0;           %.. inner pocket diameter
-h    = 10;          %.. pocket depth
+h    = 0.0254*2;     %.. pocket depth
 
 b    = 9.525;           %.. bit size
 Fd   = 150;           %.. z feedrate
-Fl   = 100;         %.. linear feed rate
+Fl   = 150;         %.. linear feed rate
 
-rinc = Do/(1.5*b);           %.. number of radial division
-dinc = h/3;           %.. number of z divisions
+rinc = 2; %round(Do/(1.5*b), 0); %.. number of radial division
+dinc = 2;           %.. number of z divisions
 
 Ro = (Do - b) / 2;
 Ri = (Di + b) / 2;
@@ -22,12 +28,16 @@ if (Di == 0)
 	Ri = 0;
 end
 
-fprintf('N1 G21 (absolute)\n');
-fprintf('N2 G90 (metric)\n');
+if (addheader)
 
-fprintf('N3 G00 X%.4f Y%.4f Z1\n', X0, Y0);
+	fprintf('N%d G21 (absolute)\n', N); N = N + 1;
+	fprintf('N%d G90 (metric)\n', N); N = N + 1;
+end
 
-N = 4;
+if (startatorigin)
+	fprintf('N%d G00 Z1\n', N); N = N + 1;
+	fprintf('N%d G00 X%.4f Y%.4f\n', N, X0, Y0); N = N + 1;
+end
 
 for d = linspace(Z0 - (h / dinc), Z0 - h, dinc)
 
@@ -48,8 +58,9 @@ for d = linspace(Z0 - (h / dinc), Z0 - h, dinc)
 	end
 end
 
-fprintf('N%d G00 Z1\n', N);
-N = N + 1;
-fprintf('N%d G00 X0 Y0\n', N);
-N = N + 1;
-fprintf('N%d M30\n', N);
+if (addfooter)
+
+	fprintf('N%d G00 Z1\n', N); N = N + 1;
+	fprintf('N%d G00 X0 Y0\n', N); N = N + 1;
+	fprintf('N%d M30\n', N);
+end

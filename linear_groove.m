@@ -38,4 +38,4 @@ end
 
 fprintf('N%d G00 Z1\n', N); N = N + 1;
 fprintf('N%d G00 X0 Y0\n', N); N = N + 1;
-fprintf('N%d M30\n', N);
+fprintf('N%d M30', N);

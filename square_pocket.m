@@ -3,16 +3,16 @@ clc;
 cutcorners = false;
 
 b   = 9.525;     %.. bit size
-Lx  = 53;    %.. square length (X)
-Ly  = 47; %62.1;    %.. square length (Y)
-h   = 7.25;   %.. square depth
+Lx  = 45;    %.. square length (X)
+Ly  = 45; %62.1;    %.. square length (Y)
+h   = 3.75;   %.. square depth
 Fl  = 150;   %.. linear feedrate
-Fd  = 150;    %.. plunge feedrate
-zinc = 2.5;     %.. depth increment
-rinc = 1.25; %.. radial increment (percent of bit)
+Fd  = 3;    %.. plunge feedrate
+zinc = 0.3;     %.. depth increment
+rinc = 1.6; %.. radial increment (percent of bit)
 
-X0 = Lx/2-15.5+11.25/2;
-Y0 = -Ly/2+15.5-11.25/2;
+X0 = 0;
+Y0 = 0;
 Z0 = 0;
 
 fprintf('N1 G21 (absolute)\n');
@@ -71,4 +71,4 @@ end
 
 fprintf('N%d G00 Z1\n', N); N = N + 1;
 fprintf('N%d G00 X0 Y0\n', N); N = N + 1;
-fprintf('N%d M30\n', N);
+fprintf('N%d M30', N);

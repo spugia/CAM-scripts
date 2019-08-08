@@ -1,4 +1,4 @@
-function [N] = circular_pocket(file, N, b, Fd, Fl, P0, Di, Do, h, dz, addheader, startatorigin, addfooter)
+function [N] = circular_pocket(file, N, b, Fd, Fl, P0, Di, Do, h, dz, face, addheader, startatorigin, addfooter)
 
 	X0 = P0(1);
 	Y0 = P0(2);
@@ -26,7 +26,16 @@ function [N] = circular_pocket(file, N, b, Fd, Fl, P0, Di, Do, h, dz, addheader,
 		fprintf(file, 'N%d G00 X%.4f Y%.4f\n', N, X0, Y0); N = N + 1;
 	end
 
-	for d = linspace(Z0 - h / dinc, Z0 - h, dinc - 1)
+	if (face)
+
+		ds = linspace(Z0, Z0 - h, dinc);
+
+	else 
+
+		ds = linspace(Z0 - h / dinc, Z0 - h, dinc - 1);
+	end
+
+	for d = ds
 
 		fprintf(file, 'N%d G00 X%.4f Y%.4f\n', N, X0, Y0+Ri); N = N + 1;
 		fprintf(file, 'N%d G01 Z%.4f F%.2f\n', N, d, Fd); N = N + 1;

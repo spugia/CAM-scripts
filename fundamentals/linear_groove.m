@@ -1,4 +1,4 @@
-function [N] = linear_groove(file, N, Fd, Fl, P1, P2, h, dz, addheader, startatorigin, addfooter)
+function [N] = linear_groove(file, N, Fd, Fl, P1, P2, Z0, h, dz, addheader, startatorigin, addfooter)
 
 	if (addheader)
 
@@ -17,7 +17,9 @@ function [N] = linear_groove(file, N, Fd, Fl, P1, P2, h, dz, addheader, startato
 
 	atone = true;
 
-	for z = linspace(0, -h, zdiv)
+	fprintf(file, 'N%d G00 X%.4f Y%.4f\n', N, P1(1), P1(2)); N = N + 1;
+
+	for z = linspace(Z0, Z0-h, zdiv)
 
 		fprintf(file, 'N%d G01 Z%.4f F%.2f\n', N, z, Fd); N = N + 1;
 

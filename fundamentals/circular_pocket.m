@@ -4,8 +4,8 @@ function [N] = circular_pocket(file, N, b, Fd, Fl, P0, Di, Do, h, dz, face, addh
 	Y0 = P0(2);
 	Z0 = P0(3);
 
-	rinc = round((Do - Di) / 2 / (0.9*b), 0);
-	dinc = round(h/dz, 0);
+	rinc = ceil((Do - Di) / 2 / (0.9*b));
+	dinc = ceil(h/dz);
 
 	Ro = (Do - b) / 2;
 	Ri = (Di + b) / 2;

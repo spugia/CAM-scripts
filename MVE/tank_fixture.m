@@ -16,6 +16,8 @@ file = fopen('~/Desktop/tank_fixture_38in_1.tap','w');
 N = square_pocket(file, N, b, Fd, Fl, [0, 0, 0], 25.5, 25.5, 7.5, 0.335, true, true, true, true);
 fclose(file);
 
+N = 1;
+
 file = fopen('~/Desktop/tank_fixture_38in_2.tap','w');
 N = square_pocket(file, N, b, Fd, Fl, [0, 0, -7.5], 25.5, 25.5, 7.5, 0.335, true, true, true, true);
 fclose(file);

@@ -50,7 +50,7 @@ function [N] = circular_pocket(file, N, b, Fd, Fl, P0, Di, Do, dr, h, dz, face, 
 			N = N + 1;
 
 			if (r ~= 0)
-				fprintf(file, 'N%d G03 X%.4f Y%.4f I%.4f J%.4f F%.2f\n', N, X0, r + Y0, 0, 0, Fl);
+				fprintf(file, 'N%d G03 X%.4f Y%.4f I%.4f J%.4f F%.2f\n', N, X0, r + Y0, 0, -r, Fl);
 				N = N + 1;
 			end
 		end

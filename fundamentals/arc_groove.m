@@ -1,17 +1,17 @@
-b = 9.525;
+b = 2;
 
-R = 25 + b/2
+R = 49.8 / 2 + b / 2;
 
 X1 = 0;
 Y1 = R;
 
 X2 = 0;
-Y2 = -R;
+Y2 = R;
 
-h   = 10;    %.. square depth
+h   = 5.5;    %.. square depth
 Fl  = 150;   %.. linear feedrate
-Fd  = 150;    %.. plunge feedrate
-zinc = 2;  %.. depth increment
+Fd  = 3;    %.. plunge feedrate
+zinc = 0.25;  %.. depth increment
 
 clc;
 

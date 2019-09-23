@@ -53,17 +53,17 @@ function N = square_pocket(file, N, b, Fd, Fl, P0, Lx, Ly, h, zdiv, cutcorners, 
 				fprintf(file, 'N%d G01 X%.4f Y%.4f F%.2f\n', N, x*orders(o, 1) + X0, y*orders(o, 2) + Y0, Fl); N = N + 1;
 			end
 		end
-	end
 
-	if (cutcorners)
+		if (cutcorners)
 
-		xmax = X0 + Lx/2;
-		ymax = Y0 + Ly/2;
+			xmax = X0 + Lx/2;
+			ymax = Y0 + Ly/2;
 
-		for o = [1 : 1 : size(orders, 1)]
+			for o = [1 : 1 : size(orders, 1) - 1]
 
-			fprintf(file, 'N%d G00 X%.4f Y%.4f\n', N, X0, Y0); N = N + 1;
-			fprintf(file, 'N%d G01 X%.4f Y%.4f F%.2f\n', xmax*orders(o, 1), ymax*orders(o, 2), Fl); N = N + 1;
+				fprintf(file, 'N%d G00 X%.4f Y%.4f\n', N, X0, Y0); N = N + 1;
+				fprintf(file, 'N%d G01 X%.4f Y%.4f F%.2f\n', N, xmax*orders(o, 1), ymax*orders(o, 2), Fl); N = N + 1;
+			end
 		end
 	end
 

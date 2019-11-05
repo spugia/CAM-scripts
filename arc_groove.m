@@ -17,8 +17,9 @@ clc;
 
 fprintf('N1 G21 (absolute)\n');
 fprintf('N2 G90 (metric)\n');
-fprintf('N3 G00 Z1\n');
-fprintf('N4 G00 X%.4f Y%.4f\n', X1, Y1);
+fprintf('N3 G91.1 (incremental IJ mode)\n');
+fprintf('N4 G00 Z1\n');
+fprintf('N5 G00 X%.4f Y%.4f\n', X1, Y1);
 
 N = 5;
 

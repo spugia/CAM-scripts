@@ -4,6 +4,7 @@ function [N] = spot_holes(file, N, F, holes, Z0, dz, addheader, startatorigin, a
 
         fprintf(file, 'N%d G21 (absolute)\n', N); N = N + 1;
         fprintf(file, 'N%d G90 (metric)\n', N); N = N + 1;
+        fprintf(file, 'N%d G91.1 (incremental IJ mode)\n', N); N = N + 1;
     end
 
     if (startatorigin)

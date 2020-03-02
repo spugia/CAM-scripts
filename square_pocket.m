@@ -41,9 +41,13 @@ Z
  - P0:   the origin point (relative to machine zero) that the square will be centered on.
 
  - Lxi:  the length of the inner square in the 'X' direction in millimeters.
+
  - Lxo:  the length of the outer square in the 'X' direction in millimeters.
+ 
  - Lyi:  the length of the inner square in the 'Y' direction in millimeters.
+ 
  - Lyo:  the length of the outer square in the 'Y' direction in millimeters.
+ 
  - h:    the depth of the pocket in millimeters
 
  - zdiv: the depth that the mill will cut off in the 'Z' direction with each 

@@ -135,9 +135,10 @@ function [N] = circular_pocket(file, N, b, Fd, Fl, P0, Di, Do, dr, h, dz, face, 
 		end
 	end
 
+	fprintf(file, 'N%d G00 Z1\n', N); N = N + 1;
+
 	if (addfooter)
 
-		fprintf(file, 'N%d G00 Z1\n', N); N = N + 1;
 		fprintf(file, 'N%d G00 X0 Y0\n', N); N = N + 1;
 		fprintf(file, 'N%d M30\n', N);
 	end

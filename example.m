@@ -1,3 +1,5 @@
+% test your code here: https://ncviewer.com
+
 %.. Example Code
 
 addpath('~/Documents/CAM-scripts');

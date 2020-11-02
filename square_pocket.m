@@ -53,8 +53,11 @@ Z
  - zdiv: the depth that the mill will cut off in the 'Z' direction with each 
          layer in millimeters.
 
- - addheader: a flag to indicate whether the header code should be added to the file.
-              Do this if this operation is the first in a sequence.
+ - cutcorners: a flag to indicate whether the header code should be added to the file.
+               Do this if this operation is the first in a sequence.
+
+ - addheader: a flag to indicate whether the header code should cut out the rounded corners 
+              of the pocket.
 
  - startatorigin: a flag to indicate whether the machine should move to the origin before
                   starting the machining operation. In general it is a good idea to do this.
@@ -63,7 +66,7 @@ Z
               Do this if the operation is the last in a sequence.
 %}
 
-function N = square_pocket(file, N, b, Fd, Fl, P0, Lxi, Lyi, Lxo, Lyo, h, zdiv, addheader, startatorigin, addfooter)
+function N = square_pocket(file, N, b, Fd, Fl, P0, Lxi, Lyi, Lxo, Lyo, h, zdiv, cutcorners, addheader, startatorigin, addfooter)
 
 	if (Lxi < 0)
 		Lxi = 0;
@@ -147,6 +150,12 @@ function N = square_pocket(file, N, b, Fd, Fl, P0, Lxi, Lyi, Lxo, Lyo, h, zdiv, 
 			for o = [1 : 1 : size(orders, 1)]
 
 				fprintf(file, 'N%d G01 X%.4f Y%.4f F%.2f\n', N, x*orders(o, 1) + X0, y*orders(o, 2) + Y0, Fl); N = N + 1;
+
+				if cutcorners
+
+					fprintf(file, 'N%d G01 X%.4f Y%.4f F%.2f\n', N, (x+b/2)*orders(o, 1) + X0, (y+b/2)*orders(o, 2) + Y0, Fl); N = N + 1;
+					fprintf(file, 'N%d G01 X%.4f Y%.4f F%.2f\n', N, x*orders(o, 1) + X0, y*orders(o, 2) + Y0, Fl); N = N + 1;
+				end
 			end
 		end
 	end

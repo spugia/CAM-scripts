@@ -111,7 +111,6 @@ function N = square_pocket(file, N, b, Fd, Fl, P0, Lxi, Lyi, Lxo, Lyo, h, zdiv, 
 
 		fprintf(file, 'N%d G21 (absolute)\n', N); N = N + 1;
 		fprintf(file, 'N%d G90 (metric)\n', N); N = N + 1;
-		fprintf(file, 'N%d G91.1 (incremental IJ mode)\n', N); N = N + 1;
 	end
 
 	if (startatorigin)
@@ -153,7 +152,7 @@ function N = square_pocket(file, N, b, Fd, Fl, P0, Lxi, Lyi, Lxo, Lyo, h, zdiv, 
 
 				if cutcorners
 
-					fprintf(file, 'N%d G01 X%.4f Y%.4f F%.2f\n', N, (x+b/2)*orders(o, 1) + X0, (y+b/2)*orders(o, 2) + Y0, Fl); N = N + 1;
+					fprintf(file, 'N%d G01 X%.4f Y%.4f F%.2f\n', N, (x+b/4)*orders(o, 1) + X0, (y+b/4)*orders(o, 2) + Y0, Fl); N = N + 1;
 					fprintf(file, 'N%d G01 X%.4f Y%.4f F%.2f\n', N, x*orders(o, 1) + X0, y*orders(o, 2) + Y0, Fl); N = N + 1;
 				end
 			end

@@ -137,7 +137,6 @@ function N = square_pocket(file, N, b, Fd, Fl, P0, Lxi, Lyi, Lxo, Lyo, h, zdiv, 
 
 	for z = [Z0 - zdiv : -zdiv : Z0 - h]
 
-		fprintf(file, 'N%d G00 Z1\n', N); N = N + 1;
 		fprintf(file, 'N%d G00 X%.4f Y%.4f\n', N, orders(1, 1)*xs(1)+X0, orders(1, 2)*ys(1)+Y0); N = N + 1;
 		fprintf(file, 'N%d G01 Z%.4f F%.2f\n', N, z, Fd); N = N + 1;
 

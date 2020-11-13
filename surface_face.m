@@ -46,6 +46,8 @@ Z
  
  - Ly:   the length of the facing square in the 'Y' direction in millimeters.
 
+ - h:    depth of the facing cut
+
  - addheader: a flag to indicate whether the header code should be added to the file.
               Do this if this operation is the first in a sequence.
 
@@ -56,7 +58,7 @@ Z
               Do this if the operation is the last in a sequence.
 %}
 
-function N = surface_face(file, N, b, Fd, Fl, P0, dr, Lx, Ly, addheader, startatorigin, addfooter)
+function N = surface_face(file, N, b, Fd, Fl, P0, dr, Lx, Ly, h, addheader, startatorigin, addfooter)
 
 	if (Lx < 0)
 		return;
@@ -92,7 +94,7 @@ function N = surface_face(file, N, b, Fd, Fl, P0, dr, Lx, Ly, addheader, startat
 	flip = false;
 
 	fprintf(file, 'N%d G01 X%.4f Y%.4f F%.2f\n', N, xs(1) + X0, y + Y0, Fl); N = N + 1;	
-	fprintf(file, 'N%d G01 Z%.4f F%.2f\n', N, Z0, Fd); N = N + 1;	
+	fprintf(file, 'N%d G01 Z%.4f F%.2f\n', N, Z0-h, Fd); N = N + 1;	
 
 	for x = xs
 

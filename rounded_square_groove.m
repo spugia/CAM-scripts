@@ -87,7 +87,7 @@ function [N] = rounded_square_groove(file, N, Fd, Fl, Lx, Ly, R, Z0, h, dz, addh
 
 	if (startatorigin)
 
-		fprintf(file, 'N%d G00 Z%.4f\n', N, Z0+1); N = N + 1;
+		fprintf(file, 'N%d G00 Z1\n', N); N = N + 1;
 		fprintf(file, 'N%d G00 X0 Y0\n', N); N = N + 1;
 	end
 

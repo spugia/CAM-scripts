@@ -56,7 +56,7 @@ Z
               Do this if the operation is the last in a sequence.
 %}
 
-function [N] = rounded_square_groove(file, N, Fd, Fl, Lx, Ly, R, Z0, h, dz, addheader, startatorigin, addfooter)
+function [N] = beveled_square_groove(file, N, Fd, Fl, Lx, Ly, R, Z0, h, dz, addheader, startatorigin, addfooter)
 
 	if (Lx <= 0)
 		N = -1;

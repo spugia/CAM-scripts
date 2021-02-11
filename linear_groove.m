@@ -61,6 +61,7 @@ function [N] = linear_groove(file, N, Fd, Fl, P1, P2, Z0, h, dz, addheader, star
 
 		fprintf(file, 'N%d G21 (absolute)\n', N); N = N + 1;
 		fprintf(file, 'N%d G90 (metric)\n', N); N = N + 1;
+		fprintf(file, 'N%d G17 (IJ arc mode)\n', N); N = N + 1;
 	end
 
 	if (startatorigin)

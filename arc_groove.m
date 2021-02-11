@@ -75,7 +75,7 @@ function [N] = arc_groove(file, N, Fd, Fl, P1, P2, o, R, Z0, h, dz, addheader, s
 
 		fprintf(file, 'N%d G21 (absolute)\n', N); N = N + 1;
 		fprintf(file, 'N%d G90 (metric)\n', N); N = N + 1;
-		fprintf(file, 'N%d G91.1 (incremental IJ mode)\n', N); N = N + 1;
+		fprintf(file, 'N%d G17 (IJ arc mode)\n', N); N = N + 1;
 	end
 
 	if (startatorigin)
@@ -89,7 +89,11 @@ function [N] = arc_groove(file, N, Fd, Fl, P1, P2, o, R, Z0, h, dz, addheader, s
 
 	atone = true;
 
-	fprintf(file, 'N%d G00 X%.4f Y%.4f\n', N, P1(1), P1(2)); N = N + 1;
+	if (o < 0)
+		fprintf(file, 'N%d G00 X%.4f Y%.4f\n', N, P1(1), P1(2)); N = N + 1;
+	else
+		fprintf(file, 'N%d G00 X%.4f Y%.4f\n', N, P2(1), P2(2)); N = N + 1;
+	end
 
 	for z = linspace(Z0, Z0-h, zdiv)
 

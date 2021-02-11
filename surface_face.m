@@ -80,6 +80,7 @@ function N = surface_face(file, N, b, Fd, Fl, P0, dr, Lx, Ly, h, addheader, star
 
 		fprintf(file, 'N%d G21 (absolute)\n', N); N = N + 1;
 		fprintf(file, 'N%d G90 (metric)\n', N); N = N + 1;
+		fprintf(file, 'N%d G17 (IJ arc mode)\n', N); N = N + 1;
 	end
 
 	if (startatorigin)

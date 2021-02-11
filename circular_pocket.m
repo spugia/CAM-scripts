@@ -96,7 +96,7 @@ function [N] = circular_pocket(file, N, b, Fd, Fl, P0, Di, Do, dr, h, dz, face, 
 
 		fprintf(file, 'N%d G21 (absolute)\n', N); N = N + 1;
 		fprintf(file, 'N%d G90 (metric)\n', N); N = N + 1;
-		fprintf(file, 'N%d G91.1 (incremental IJ mode)\n', N); N = N + 1;
+		fprintf(file, 'N%d G17 (IJ arc mode)\n', N); N = N + 1;
 	end
 
 	if (startatorigin)

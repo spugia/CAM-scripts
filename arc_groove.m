@@ -89,11 +89,7 @@ function [N] = arc_groove(file, N, Fd, Fl, P1, P2, o, R, Z0, h, dz, addheader, s
 
 	atone = true;
 
-	if (o < 0)
-		fprintf(file, 'N%d G00 X%.4f Y%.4f\n', N, P1(1), P1(2)); N = N + 1;
-	else
-		fprintf(file, 'N%d G00 X%.4f Y%.4f\n', N, P2(1), P2(2)); N = N + 1;
-	end
+	fprintf(file, 'N%d G00 X%.4f Y%.4f\n', N, P2(1), P2(2)); N = N + 1;
 
 	for z = linspace(Z0, Z0-h, zdiv)
 

@@ -50,7 +50,7 @@ Z
  
  - h:    the depth of the pocket in millimeters
 
- - zdiv: the depth that the mill will cut off in the 'Z' direction with each 
+ - dz:   the depth that the mill will cut off in the 'Z' direction with each 
          layer in millimeters.
 
  - cutcorners: a flag to indicate whether the header code should be added to the file.
@@ -66,7 +66,7 @@ Z
               Do this if the operation is the last in a sequence.
 %}
 
-function N = square_pocket(file, N, b, Fd, Fl, P0, Lxi, Lyi, Lxo, Lyo, h, zdiv, cutcorners, addheader, startatorigin, addfooter)
+function N = square_pocket(file, N, b, Fd, Fl, P0, Lxi, Lyi, Lxo, Lyo, h, dz, cutcorners, addheader, startatorigin, addfooter)
 
 	if (Lxi < 0)
 		Lxi = 0;
@@ -103,9 +103,12 @@ function N = square_pocket(file, N, b, Fd, Fl, P0, Lxi, Lyi, Lxo, Lyo, h, zdiv, 
 	Y0 = P0(2);
 	Z0 = P0(3);
 
-	if (zdiv > h)
-		zdiv = h;
+	if (dz > h)
+		dz = h;
 	end
+
+        dinc = ceil(h/dz);
+        ds = linspace(Z0 - h / dinc, Z0 - h, dinc - 1);
 
 	if (addheader)
 
@@ -136,7 +139,7 @@ function N = square_pocket(file, N, b, Fd, Fl, P0, Lxi, Lyi, Lxo, Lyo, h, zdiv, 
 
 	orders = [-1, 1; 1, 1; 1, -1; -1, -1; -1, 1];
 
-	for z = [Z0 - zdiv : -zdiv : Z0 - h]
+	for z = ds
 
 		fprintf(file, 'N%d G00 X%.4f Y%.4f\n', N, orders(1, 1)*xs(1)+X0, orders(1, 2)*ys(1)+Y0); N = N + 1;
 		fprintf(file, 'N%d G01 Z%.4f F%.2f\n', N, z, Fd); N = N + 1;

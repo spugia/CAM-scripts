@@ -137,6 +137,13 @@ function N = square_pocket(file, N, b, Fd, Fl, P0, Lxi, Lyi, Lxo, Lyo, h, dz, cu
 	xs = linspace(Lxi/2+b/2, Lxo/2-b/2, rdiv);
 	ys = linspace(Lyi/2+b/2, Lyo/2-b/2, rdiv);
 
+	if (rdiv == 2 & xs(1) == xs(2) & ys(1) == ys(2))
+
+		rdiv = 1;
+		xs = xs(1);
+		ys = ys(1);
+	end
+
 	orders = [-1, 1; 1, 1; 1, -1; -1, -1; -1, 1];
 
 	for z = ds

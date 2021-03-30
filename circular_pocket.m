@@ -64,8 +64,6 @@ Z
  - dz:   how much the tool will increment in the 'Z' direction with 
          each pass measured in millimeters.
 
- - face: flag to indicate whether to do a facing pass before starting to cut downward.
-
  - addheader: a flag to indicate whether the header code should be added to the file.
               Do this if this operation is the first in a sequence.
 
@@ -76,14 +74,14 @@ Z
               Do this if the operation is the last in a sequence.
 %}
 
-function [N] = circular_pocket(file, N, b, Fd, Fl, P0, Di, Do, dr, h, dz, face, addheader, startatorigin, addfooter)
+function [N] = circular_pocket(file, N, b, Fd, Fl, P0, Di, Do, dr, h, dz, addheader, startatorigin, addfooter)
 
 	X0 = P0(1);
 	Y0 = P0(2);
 	Z0 = P0(3);
 
 	rinc = ceil((Do - Di) / 2 / (dr*b));
-	dinc = ceil(h/dz);
+	zinc = ceil(h/dz);
 
 	Ro = (Do - b) / 2;
 	Ri = (Di + b) / 2;
@@ -106,23 +104,16 @@ function [N] = circular_pocket(file, N, b, Fd, Fl, P0, Di, Do, dr, h, dz, face, 
 		fprintf(file, 'N%d G00 X%.4f Y%.4f\n', N, X0, Y0); N = N + 1;
 	end
 
-	if (face)
-
-		ds = linspace(Z0, Z0 - h, dinc);
-
-	else 
-
-		ds = linspace(Z0 - h / dinc, Z0 - h, dinc - 1);
-	end
-
 	if rinc == 0
 		rinc = 1;
 	end
 
-	for d = ds
+	zs = linspace(Z0 - h / zinc, Z0 - h, zinc - 1);
+
+	for z = zs
 
 		fprintf(file, 'N%d G00 X%.4f Y%.4f\n', N, X0, Y0+Ri); N = N + 1;
-		fprintf(file, 'N%d G01 Z%.4f F%.2f\n', N, d, Fd); N = N + 1;
+		fprintf(file, 'N%d G01 Z%.4f F%.2f\n', N, z, Fd); N = N + 1;
 
 		for r = linspace(Ri, Ro, rinc)
 

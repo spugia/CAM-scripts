@@ -108,7 +108,7 @@ function [N] = circular_pocket(file, N, b, Fd, Fl, P0, Di, Do, dr, h, dz, addhea
 		rinc = 1;
 	end
 
-	zs = linspace(Z0 - h / zinc, Z0 - h, zinc - 1);
+	zs = linspace(Z0 - h / zinc, Z0 - h, zinc);
 
 	for z = zs
 

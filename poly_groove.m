@@ -40,7 +40,7 @@
               Do this if the operation is the last in a sequence.
 %}
 
-function [N] = poly_pocket(file, N, Fd, Fl, P0, Ps, Rs, h, dz, addheader, startatorigin, addfooter)
+function [N] = poly_groove(file, N, Fd, Fl, P0, Ps, Rs, h, dz, addheader, startatorigin, addfooter)
 
 	%.. error checking
 	if (Fl < 0 | Fd < 0)
@@ -53,7 +53,12 @@ function [N] = poly_pocket(file, N, Fd, Fl, P0, Ps, Rs, h, dz, addheader, starta
 		return;
 	end
 
-	if (size(Ps, 1) ~= length(Rs) - 1)
+	if (size(Ps, 1) ~= length(Rs) + 1)
+		N = -1;
+		return;
+	end
+
+	if (Ps(1, 1) ~= Ps(end, 1) | Ps(1, 2) ~= Ps(end, 2))
 		N = -1;
 		return;
 	end
@@ -62,8 +67,6 @@ function [N] = poly_pocket(file, N, Fd, Fl, P0, Ps, Rs, h, dz, addheader, starta
 	X0 = P0(1);
 	Y0 = P0(2);
 	Z0 = P0(3);
-
-	zinc = ceil(h/dz);
 
 	if (addheader)
 
@@ -79,26 +82,30 @@ function [N] = poly_pocket(file, N, Fd, Fl, P0, Ps, Rs, h, dz, addheader, starta
 		fprintf(file, 'N%d G00 X%.4f Y%.4f\n', N, X0, Y0); N = N + 1;
 	end
 
-	%.. cutting pocket
-	ZS = linspace(h / zinc, h, zinc - 1);
+	%.. cutting groove
+	zinc = ceil(h / dz);
+	ZS = linspace(h / zinc, h, zinc);
 
 	for Z = ZS
 
 		X = Ps(1, 1);
 		Y = Ps(1, 2);
 
-		fprintf(file, 'N%d G00 X%.4f Y%.4f\n', N, X0 + X, Y0 + Y) N = N + 1;
-		fprintf(file, 'N%d G01 Z%.4f %.2F\n', Z + Z0, Fd); N = N + 1;
+		fprintf(file, 'N%d G00 X%.4f Y%.4f\n', N, X0 + X, Y0 + Y); N = N + 1;
+		fprintf(file, 'N%d G01 Z%.4f F%.2f\n', N, -Z + Z0, Fd); N = N + 1;
 
-		for p = [1 : 1 : size(Ps, 1)]
+		for p = [2 : 1 : size(Ps, 1)]
 			
 			X = Ps(p, 1);
 			Y = Ps(p, 2);
+			R = Rs(p - 1);
 
-			if (P == 0)
+			if (R == 0)
 				fprintf(file, 'N%d G01 X%.4f Y%.4f F%.2f\n', N, X0 + X, Y0 + Y, Fl); N = N + 1;
-			else
-				
+			elseif (R < 0)
+				fprintf(file, 'N%d G02 X%.4f Y%.4f R%.4f F%.2f\n', N, X0 + X, Y0 + Y, R, Fl); N = N + 1;
+			elseif (R > 0)
+				fprintf(file, 'N%d G03 X%.4f Y%.4f R%.4f F%.2f\n', N, X0 + X, Y0 + Y, R, Fl); N = N + 1;
 			end
 		end
 	end

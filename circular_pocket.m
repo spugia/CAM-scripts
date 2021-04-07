@@ -56,9 +56,6 @@ Z
 
  - Do:   the diameter of the outer circle in millimeters.
 
- - dr:   how much the tool increments radially with each pass. Defined as a 
-         percentage of the bit diameter.
-
  - h:    how deep the pocket should be measured in millimeters.
  
  - dz:   how much the tool will increment in the 'Z' direction with 
@@ -74,11 +71,13 @@ Z
               Do this if the operation is the last in a sequence.
 %}
 
-function [N] = circular_pocket(file, N, b, Fd, Fl, P0, Di, Do, dr, h, dz, addheader, startatorigin, addfooter)
+function [N] = circular_pocket(file, N, b, Fd, Fl, P0, Di, Do, h, dz, addheader, startatorigin, addfooter)
 
 	X0 = P0(1);
 	Y0 = P0(2);
 	Z0 = P0(3);
+
+	dr = 0.8;
 
 	rinc = ceil((Do - Di) / 2 / (dr*b));
 	zinc = ceil(h/dz);

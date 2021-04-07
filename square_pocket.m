@@ -48,6 +48,8 @@ Z
  
  - Lyo:  the length of the outer square in the 'Y' direction in millimeters.
  
+ - dr:   the radial increment as a function of bit diameter
+
  - h:    the depth of the pocket in millimeters
 
  - dz:   the depth that the mill will cut off in the 'Z' direction with each 
@@ -66,23 +68,7 @@ Z
               Do this if the operation is the last in a sequence.
 %}
 
-function N = square_pocket(file, N, b, Fd, Fl, P0, Lxi, Lyi, Lxo, Lyo, h, dz, cutcorners, addheader, startatorigin, addfooter)
-
-	if (Lxi < 0)
-		Lxi = 0;
-	end
-
-	if (Lyi < 0)
-		Lyi = 0;
-	end
-
-	if (Lxo < 0)
-		Lxo = 0;
-	end
-
-	if (Lyo < 0)
-		Lyo = 0;
-	end
+function N = square_pocket(file, N, b, Fd, Fl, P0, Lxi, Lyi, Lxo, Lyo, dr, h, dz, cutcorners, addheader, startatorigin, addfooter)
 
 	if ((Lxo-Lxi)/2 < b)
 		N = -1;
@@ -95,6 +81,11 @@ function N = square_pocket(file, N, b, Fd, Fl, P0, Lxi, Lyi, Lxo, Lyo, h, dz, cu
 	end
 
 	if (Lxo <= Lxi | Lyo <= Lyi)
+		N = -1;
+		return;
+	end
+
+	if (dr <= 0)
 		N = -1;
 		return;
 	end
@@ -124,10 +115,10 @@ function N = square_pocket(file, N, b, Fd, Fl, P0, Lxi, Lyi, Lxo, Lyo, h, dz, cu
 		fprintf(file, 'N%d G00 X%.4f Y%.4f\n', N, X0, Y0); N = N + 1;
 	end
 
-	xdiv = (Lxo-Lxi) / 2 / (0.75 * b);
+	xdiv = (Lxo-Lxi) / 2 / (dr * b);
 	xdiv = ceil(xdiv);
 
-	ydiv = (Lyo-Lyi) / 2 / (0.75 * b);
+	ydiv = (Lyo-Lyi) / 2 / (dr * b);
 	ydiv = ceil(ydiv);
 
 	rdiv = xdiv;

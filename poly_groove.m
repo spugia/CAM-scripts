@@ -152,9 +152,9 @@ function [N] = poly_groove(file, N, b, Fd, Fl, P0, Ps, Rs, Ix, Iy, dr, h, dz, ad
 				if (R == 0)
 					fprintf(file, 'N%d G01 X%.4f Y%.4f F%.2f\n', N, X0 + X + IX, Y0 + Y + IY, Fl); N = N + 1;
 				elseif (R < 0)
-					fprintf(file, 'N%d G02 X%.4f Y%.4f R%.4f F%.2f\n', N, X0 + X + IX, Y0 + Y + IY, R, Fl); N = N + 1;
+					fprintf(file, 'N%d G02 X%.4f Y%.4f R%.4f F%.2f\n', N, X0 + X + IX, Y0 + Y + IY, abs(R), Fl); N = N + 1;
 				elseif (R > 0)
-					fprintf(file, 'N%d G03 X%.4f Y%.4f R%.4f F%.2f\n', N, X0 + X + IX, Y0 + Y + IY, R, Fl); N = N + 1;
+					fprintf(file, 'N%d G03 X%.4f Y%.4f R%.4f F%.2f\n', N, X0 + X + IX, Y0 + Y + IY, abs(R), Fl); N = N + 1;
 				end
 			end
 		end

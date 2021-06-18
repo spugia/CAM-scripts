@@ -24,9 +24,11 @@
  - Ps:   The points of the poly shape
 
  - Rs:   Radii of each intermediate step 
+
+ - Ds:   Orientation of curve
  			- = 0: straight lines
- 			- < 0: concave lines
- 			- > 0: convex lines
+ 			- < 0: counter-clockwise curves
+ 			- > 0: clockwise curves
 
  - Ix:   X inflation thickness (+ or -).
 
@@ -48,7 +50,7 @@
               Do this if the operation is the last in a sequence.
 %}
 
-function [N] = poly_groove(file, N, b, Fd, Fl, P0, Ps, Rs, Ix, Iy, dr, h, dz, addheader, startatorigin, addfooter)
+function [N] = poly_groove(file, N, b, Fd, Fl, P0, Ps, Rs, Ds, Ix, Iy, dr, h, dz, addheader, startatorigin, addfooter)
 
 	%.. error checking
 	if (Fl < 0 | Fd < 0)
@@ -64,8 +66,13 @@ function [N] = poly_groove(file, N, b, Fd, Fl, P0, Ps, Rs, Ix, Iy, dr, h, dz, ad
 	if (size(Ps, 1) ~= length(Rs) + 1)
 		N = -1;
 		return;
-	end
+    end
 
+    if (size(Ps, 1) ~= length(Ds) + 1)
+        N = -1;
+        return;
+    end
+    
 	if (dr <= 0)
 		N = -1;
 		return;
@@ -148,13 +155,14 @@ function [N] = poly_groove(file, N, b, Fd, Fl, P0, Ps, Rs, Ix, Iy, dr, h, dz, ad
 				X = Ps(p, 1);
 				Y = Ps(p, 2);
 				R = Rs(p - 1);
+                D = Ds(p - 1);
 
-				if (R == 0)
+				if (D == 0)
 					fprintf(file, 'N%d G01 X%.4f Y%.4f F%.2f\n', N, X0 + X + IX, Y0 + Y + IY, Fl); N = N + 1;
-				elseif (R < 0)
-					fprintf(file, 'N%d G02 X%.4f Y%.4f R%.4f F%.2f\n', N, X0 + X + IX, Y0 + Y + IY, abs(R), Fl); N = N + 1;
-				elseif (R > 0)
-					fprintf(file, 'N%d G03 X%.4f Y%.4f R%.4f F%.2f\n', N, X0 + X + IX, Y0 + Y + IY, abs(R), Fl); N = N + 1;
+				elseif (D < 0)
+					fprintf(file, 'N%d G03 X%.4f Y%.4f R%.4f F%.2f\n', N, X0 + X + IX, Y0 + Y + IY, R, Fl); N = N + 1;
+				elseif (D > 0)
+					fprintf(file, 'N%d G02 X%.4f Y%.4f R%.4f F%.2f\n', N, X0 + X + IX, Y0 + Y + IY, R, Fl); N = N + 1;
 				end
 			end
 		end

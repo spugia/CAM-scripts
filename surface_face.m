@@ -110,23 +110,23 @@ function N = surface_face(file, N, b, Fd, Fl, P0, dr, Lx, Ly, o, h, dz, addheade
 		D2 = 'X';
 	end
 
-	zs = [Z0 : -dz : Z0-h]
+	zs = [Z0 : -dz : Z0-h];
 
 	for z = zs
 
 		flip = false;
 
-		fprintf(file, 'N%d G01 %c%.4f %c%.4f F%.2f\n', N, D1, ds(1) + L01, D2, L2 + L02, Fl); N = N + 1;	
+		fprintf(file, 'N%d G01 %s%.4f %s%.4f F%.2f\n', N, D1, ds(1) + L01, D2, L2 + L02, Fl); N = N + 1;	
 		fprintf(file, 'N%d G01 Z%.4f F%.2f\n', N, z, Fd); N = N + 1;	
 
 		for d = ds
 
-			fprintf(file, 'N%d G01 %c%.4f F%.2f\n', N, D1, d + L01, D2, Fl); N = N + 1;
+			fprintf(file, 'N%d G01 %s%.4f F%.2f\n', N, D1, d + L01, Fl); N = N + 1;
 
 			if (flip)
-				fprintf(file, 'N%d G01 %c%.4f F%.2f\n', N, D2, L2 + L02, Fl);
+				fprintf(file, 'N%d G01 %s%.4f F%.2f\n', N, D2, L2 + L02, Fl);
 			else
-				fprintf(file, 'N%d G01 %c%.4f F%.2f\n', N, D2, -L2 + L02, Fl);
+				fprintf(file, 'N%d G01 %s%.4f F%.2f\n', N, D2, -L2 + L02, Fl);
 			end
 
 			N = N + 1;

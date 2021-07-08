@@ -112,6 +112,11 @@ function N = surface_face(file, N, b, Fd, Fl, P0, dr, Lx, Ly, o, h, dz, addheade
 
 	zs = [Z0 : -dz : Z0-h];
 
+	if (zs(end) ~= (Z0 - h))
+
+		zs(end+1) = Z0-h;
+	end
+
 	for z = zs
 
 		flip = false;

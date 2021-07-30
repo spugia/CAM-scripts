@@ -68,7 +68,12 @@ Z
               Do this if the operation is the last in a sequence.
 %}
 
-function N = square_pocket(file, N, b, Fd, Fl, P0, Lxi, Lyi, Lxo, Lyo, dr, h, dz, cutcorners, addheader, startatorigin, addfooter)
+function N = square_pocket(file, N, b, Fd, Fls, P0, Lxi, Lyi, Lxo, Lyo, dr, h, dz, cutcorners, addheader, startatorigin, addfooter)
+
+    if (length(Fls) ~= 3)
+       N = -1;
+       return;
+    end
 
 	if ((Lxo-Lxi)/2 < b)
 		N = -1;
@@ -148,7 +153,7 @@ function N = square_pocket(file, N, b, Fd, Fl, P0, Lxi, Lyi, Lxo, Lyo, dr, h, dz
         end
         
 		fprintf(file, 'N%d G01 Z%.4f F%.2f\n', N, z, Fd); N = N + 1;
-
+        
 		for r = [1 : 1 : rdiv]
 
 			x = xs(r);
@@ -156,6 +161,14 @@ function N = square_pocket(file, N, b, Fd, Fl, P0, Lxi, Lyi, Lxo, Lyo, dr, h, dz
 
 			for o = [1 : 1 : size(orders, 1)]
 
+                Fl = Fls(2);
+                
+                if (r == rdiv)
+                    Fl = Fls(3);
+                elseif (r == 1)
+                    Fl = Fls(1);
+                end
+                
 				fprintf(file, 'N%d G01 X%.4f Y%.4f F%.2f\n', N, x*orders(o, 1) + X0, y*orders(o, 2) + Y0, Fl); N = N + 1;
 
 				if cutcorners & r == rdiv & o ~= 1

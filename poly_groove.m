@@ -50,14 +50,9 @@
               Do this if the operation is the last in a sequence.
 %}
 
-function [N] = poly_groove(file, N, b, Fd, Fl, P0, Ps, Rs, Ds, Ix, Iy, dr, h, dz, addheader, startatorigin, addfooter)
+function [N] = poly_groove(file, N, b, Fd, Fls, P0, Ps, Rs, Ds, Ix, Iy, dr, h, dz, addheader, startatorigin, addfooter)
 
 	%.. error checking
-	if (Fl < 0 | Fd < 0)
-		N = -1;
-		return;
-	end
-
 	if (dz == 0)
 		N = -1;
 		return;
@@ -69,6 +64,11 @@ function [N] = poly_groove(file, N, b, Fd, Fl, P0, Ps, Rs, Ds, Ix, Iy, dr, h, dz
     end
 
     if (size(Ps, 1) ~= length(Ds) + 1)
+        N = -1;
+        return;
+    end
+    
+    if (size(Ps, 1) ~= length(Fls) + 1)
         N = -1;
         return;
     end
@@ -152,11 +152,12 @@ function [N] = poly_groove(file, N, b, Fd, Fl, P0, Ps, Rs, Ds, Ix, Iy, dr, h, dz
 
 			for p = [2 : 1 : size(Ps, 1)]
 				
-				X = Ps(p, 1);
-				Y = Ps(p, 2);
-				R = Rs(p - 1);
-                D = Ds(p - 1);
-
+				X  = Ps(p, 1);
+				Y  = Ps(p, 2);
+				R  = Rs(p - 1);
+                D  = Ds(p - 1);
+                Fl = Fls(p - 1);
+                
 				if (D == 0)
 					fprintf(file, 'N%d G01 X%.4f Y%.4f F%.2f\n', N, X0 + X + IX, Y0 + Y + IY, Fl); N = N + 1;
 				elseif (D < 0)

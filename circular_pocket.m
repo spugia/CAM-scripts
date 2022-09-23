@@ -89,6 +89,12 @@ function [N] = circular_pocket(file, N, b, Fd, Fl, P0, Di, Do, h, dz, addheader,
 		Ri = 0;
 	end
 
+	Zsafe = 1;
+	
+	if (Z0 < 0)
+		Zsafe = Zsafe - Z0;
+	end
+
 	if (addheader)
 
 		fprintf(file, 'N%d G21 (absolute)\n', N); N = N + 1;
@@ -99,7 +105,7 @@ function [N] = circular_pocket(file, N, b, Fd, Fl, P0, Di, Do, h, dz, addheader,
 
 	if (startatorigin)
 		
-		fprintf(file, 'N%d G00 Z%.4f\n', N, Z0 + 1); N = N + 1;
+		fprintf(file, 'N%d G00 Z%.4f\n', N, Zsafe); N = N + 1;
 		fprintf(file, 'N%d G00 X%.4f Y%.4f\n', N, X0, Y0); N = N + 1;
 	end
 
@@ -126,7 +132,7 @@ function [N] = circular_pocket(file, N, b, Fd, Fl, P0, Di, Do, h, dz, addheader,
 		end
 	end
 
-	fprintf(file, 'N%d G00 Z%.4f\n', N, Z0 + 1); N = N + 1;
+	fprintf(file, 'N%d G00 Z%.4f\n', N, Zsafe); N = N + 1;
 
 	if (addfooter)
 

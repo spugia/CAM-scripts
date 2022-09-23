@@ -61,17 +61,17 @@ function [N] = poly_groove(file, N, b, Fd, Fls, P0, Ps, Rs, Ds, Ix, Iy, dr, h, d
 	if (size(Ps, 1) ~= length(Rs) + 1)
 		N = -1;
 		return;
-    end
+    	end
 
-    if (size(Ps, 1) ~= length(Ds) + 1)
-        N = -1;
-        return;
-    end
-    
-    if (size(Ps, 1) ~= length(Fls) + 1)
-        N = -1;
-        return;
-    end
+	if (size(Ps, 1) ~= length(Ds) + 1)
+		N = -1;
+		return;
+	end
+
+	if (size(Ps, 1) ~= length(Fls) + 1)
+		N = -1;
+		return;
+	end
     
 	if (dr <= 0)
 		N = -1;
@@ -83,17 +83,22 @@ function [N] = poly_groove(file, N, b, Fd, Fls, P0, Ps, Rs, Ds, Ix, Iy, dr, h, d
 	Y0 = P0(2);
 	Z0 = P0(3);
 
+	Zsafe = 1;
+	if (Z0 < 0)
+		Zsafe = Zsafe - Z0;
+	end
+
 	if (addheader)
 
 		fprintf(file, 'N%d G21 (absolute)\n', N); N = N + 1;
 		fprintf(file, 'N%d G90 (metric)\n', N); N = N + 1;
 		fprintf(file, 'N%d G91.1 (absolute arc)\n', N); N = N + 1;	
-        fprintf(file, 'N%d G17 (IJ arc mode)\n', N); N = N + 1;
+        	fprintf(file, 'N%d G17 (IJ arc mode)\n', N); N = N + 1;
 	end
 
 	if (startatorigin)
 		
-		fprintf(file, 'N%d G00 Z1\n', N); N = N + 1;
+		fprintf(file, 'N%d G00 Z%.4f\n', N, Zsafe); N = N + 1;
 		fprintf(file, 'N%d G00 X%.4f Y%.4f\n', N, X0, Y0); N = N + 1;
 	end
 
@@ -139,7 +144,7 @@ function [N] = poly_groove(file, N, b, Fd, Fls, P0, Ps, Rs, Ds, Ix, Iy, dr, h, d
 			IY = Iys(i);
 
 			if (~closed)
-				fprintf(file, 'N%d G00 Z1\n', N); N = N + 1;
+				fprintf(file, 'N%d G00 Z%.4f\n', N, Zsafe); N = N + 1;
 			end
 
 			fprintf(file, 'N%d G00 X%.4f Y%.4f\n', N, X0 + X + IX, Y0 + Y + IY); N = N + 1;
@@ -155,8 +160,8 @@ function [N] = poly_groove(file, N, b, Fd, Fls, P0, Ps, Rs, Ds, Ix, Iy, dr, h, d
 				X  = Ps(p, 1);
 				Y  = Ps(p, 2);
 				R  = Rs(p - 1);
-                D  = Ds(p - 1);
-                Fl = Fls(p - 1);
+                		D  = Ds(p - 1);
+                		Fl = Fls(p - 1);
                 
 				if (D == 0)
 					fprintf(file, 'N%d G01 X%.4f Y%.4f F%.2f\n', N, X0 + X + IX, Y0 + Y + IY, Fl); N = N + 1;
@@ -172,7 +177,7 @@ function [N] = poly_groove(file, N, b, Fd, Fls, P0, Ps, Rs, Ds, Ix, Iy, dr, h, d
 	%.. footers
 	if (addfooter)
 
-		fprintf(file, 'N%d G00 Z1\n', N); N = N + 1;
+		fprintf(file, 'N%d G00 Z%.4f\n', N, Zsafe); N = N + 1;
 		fprintf(file, 'N%d G00 X0 Y0\n', N); N = N + 1;
 		fprintf(file, 'N%d M30\n', N);
 	end

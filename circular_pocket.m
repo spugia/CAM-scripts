@@ -90,10 +90,6 @@ function [N] = circular_pocket(file, N, b, Fd, Fl, P0, Di, Do, h, dz, addheader,
 	end
 
 	Zsafe = 1;
-	
-	if (Z0 < 0)
-		Zsafe = Zsafe - Z0;
-	end
 
 	if (addheader)
 

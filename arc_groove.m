@@ -73,9 +73,10 @@ function [N] = arc_groove(file, N, Fd, Fl, P1, P2, o, R, Z0, h, dz, addheader, s
 
 	if (addheader)
 
-		fprintf(file, 'N%d G21 (absolute)\n', N); N = N + 1;
-		fprintf(file, 'N%d G90 (metric)\n', N); N = N + 1;
-		fprintf(file, 'N%d G17 (IJ arc mode)\n', N); N = N + 1;
+		fprintf(file, 'N%d G21 (millimeters)\n', N); N = N + 1;
+		fprintf(file, 'N%d G90 (absolute dist)\n', N); N = N + 1;
+		fprintf(file, 'N%d G91.1 (incremental arc)\n', N); N = N + 1;	
+		fprintf(file, 'N%d G17 (XY plane)\n', N); N = N + 1;
 	end
 
 	if (startatorigin)

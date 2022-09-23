@@ -44,11 +44,10 @@ Z
 
  - b:    the diameter of the cutting bit in millimeters.
 
- - Fd:   the plunging feed rate for the mill.
-         note: the maximum that the minimill can do is 150 mm/min.
+ - Fd:   the plunging feed rate for the mill in mm/min.
 
- - Fl:   the translational feed rate for the mill.
-         note: the maximum that the minimill can do is 150 mm/min.
+ - Fls:  the translational feed rate for the mill in mm/min.. 
+         Array of 3 values: inner edge, middle area, and outer edge.
 
  - P0:   the origin point that the pocket will be centered on (relative to machine zero).
 
@@ -71,7 +70,7 @@ Z
               Do this if the operation is the last in a sequence.
 %}
 
-function [N] = circular_pocket(file, N, b, Fd, Fl, P0, Di, Do, h, dz, addheader, startatorigin, addfooter)
+function [N] = circular_pocket(file, N, b, Fd, Fls, P0, Di, Do, h, dz, addheader, startatorigin, addfooter)
 
 	X0 = P0(1);
 	Y0 = P0(2);
@@ -93,10 +92,10 @@ function [N] = circular_pocket(file, N, b, Fd, Fl, P0, Di, Do, h, dz, addheader,
 
 	if (addheader)
 
-		fprintf(file, 'N%d G21 (absolute)\n', N); N = N + 1;
-		fprintf(file, 'N%d G90 (metric)\n', N); N = N + 1;
-		fprintf(file, 'N%d G91.1 (absolute arc)\n', N); N = N + 1;	
-		fprintf(file, 'N%d G17 (IJ arc mode)\n', N); N = N + 1;
+		fprintf(file, 'N%d G21 (millimeters)\n', N); N = N + 1;
+		fprintf(file, 'N%d G90 (absolute dist)\n', N); N = N + 1;
+		fprintf(file, 'N%d G91.1 (incremental arc)\n', N); N = N + 1;	
+		fprintf(file, 'N%d G17 (XY plane)\n', N); N = N + 1;
 	end
 
 	if (startatorigin)
@@ -117,6 +116,14 @@ function [N] = circular_pocket(file, N, b, Fd, Fl, P0, Di, Do, h, dz, addheader,
 		fprintf(file, 'N%d G01 Z%.4f F%.2f\n', N, z, Fd); N = N + 1;
 
 		for r = linspace(Ri, Ro, rinc)
+
+			Fl = Fls(2);
+
+			if (r == Ri)
+				F = Fls(1);
+			elseif (r == Ro)
+				F = Fls(2);
+			end
 
 			fprintf(file, 'N%d G01 X%.4f Y%.4f F%.2f\n', N, X0, r + Y0, Fl);
 			N = N + 1;

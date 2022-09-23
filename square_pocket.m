@@ -32,11 +32,10 @@ Z
 
  - b:    the diameter of the cutting bit in millimeters.
 
- - Fd:   the plunging feed rate for the mill.
-         note: the maximum that the minimill can do is 150 mm/min.
+ - Fd:   the plunging feed rate for the mill in mm/min.
 
- - Fl:   the translational feed rate for the mill.
-         note: the maximum that the minimill can do is 150 mm/min.
+ - Fls:  the translational feed rate for the mill in mm/min.. 
+         Array of 3 values: inner edge, middle area, and outer edge.
 
  - P0:   the origin point (relative to machine zero) that the square will be centered on.
 
@@ -108,10 +107,10 @@ function N = square_pocket(file, N, b, Fd, Fls, P0, Lxi, Lyi, Lxo, Lyo, dr, h, d
 
 	if (addheader)
 
-		fprintf(file, 'N%d G21 (absolute)\n', N); N = N + 1;
-		fprintf(file, 'N%d G90 (metric)\n', N); N = N + 1;
-		fprintf(file, 'N%d G91.1 (absolute arc)\n', N); N = N + 1;	
-        fprintf(file, 'N%d G17 (IJ arc mode)\n', N); N = N + 1;
+		fprintf(file, 'N%d G21 (millimeters)\n', N); N = N + 1;
+		fprintf(file, 'N%d G90 (absolute dist)\n', N); N = N + 1;
+		fprintf(file, 'N%d G91.1 (incremental arc)\n', N); N = N + 1;	
+		fprintf(file, 'N%d G17 (XY plane)\n', N); N = N + 1;
 	end
 
 	if (startatorigin)

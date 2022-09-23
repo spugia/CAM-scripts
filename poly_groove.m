@@ -84,10 +84,7 @@ function [N] = poly_groove(file, N, b, Fd, Fls, P0, Ps, Rs, Ds, Ix, Iy, dr, h, d
 	Z0 = P0(3);
 
 	Zsafe = 1;
-	if (Z0 < 0)
-		Zsafe = Zsafe - Z0;
-	end
-
+	
 	if (addheader)
 
 		fprintf(file, 'N%d G21 (absolute)\n', N); N = N + 1;

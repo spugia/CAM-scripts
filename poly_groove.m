@@ -78,15 +78,15 @@ function [N] = poly_groove(file, N, b, Fd, Fls, P0, Ps, Rs, Ds, Ix, Iy, dr, h, d
 		return;
 	end
 
-	%.. headers
-	X0 = P0(1);
-	Y0 = P0(2);
-	Z0 = P0(3);
-
 	Zsafe = 1;
 	if (Z0 < 0)
 		Zsafe = Zsafe - Z0;
 	end
+
+	%.. headers
+	X0 = P0(1);
+	Y0 = P0(2);
+	Z0 = P0(3);
 
 	if (addheader)
 

@@ -35,10 +35,7 @@
 function [N] = drill_holes(file, N, Fd, holes, Z0, h, addheader, startatorigin, addfooter)
 
     Zsafe = 1;
-    if (Z0 < 0)
-        Zsafe = Zsafe - Z0;
-    end
-
+    
     if (addheader)
 
         fprintf(file, 'N%d G21 (absolute)\n', N); N = N + 1;

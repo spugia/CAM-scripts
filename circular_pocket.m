@@ -115,10 +115,10 @@ function [N] = circular_pocket(file, N, b, Fd, Fls, P0, Di, Do, h, dz, addheader
 		fprintf(file, 'N%d G00 X%.4f Y%.4f\n', N, X0, Y0+Ri); N = N + 1;
 		
 		if (n == 1) 
-			fprintf(file, 'N%d G00 Z%.4f\n', Z0);
+			fprintf(file, 'N%d G00 Z%.4f\n', N, Z0); N = N + 1;
 		end
 
-		fprintf(file, 'N%d G01 Z%.4f F%.2f\n', N, z(n), Fd); N = N + 1;
+		fprintf(file, 'N%d G01 Z%.4f F%.2f\n', N, zs(n), Fd); N = N + 1;
 
 		for r = linspace(Ri, Ro, rinc)
 

@@ -55,7 +55,7 @@ Z
 
  - Do:   the diameter of the outer circle in millimeters.
 
- - dr:   radial increment as percentage of bit diameter.
+ - dr:   radial increment as percentage of bit diameter (>= 0: inner to outer, < 0: outer to inner)
 
  - h:    how deep the pocket should be measured in millimeters.
  
@@ -73,6 +73,13 @@ Z
 %}
 
 function [N] = circular_pocket(file, N, b, Fd, Fls, P0, Di, Do, dr, h, dz, addheader, startatorigin, addfooter)
+
+	rdir = -1;
+	if (dr < 0)
+		rdir = 1;
+	end
+
+	dr = abs(dr);
 
 	X0 = P0(1);
 	Y0 = P0(2);
@@ -120,7 +127,13 @@ function [N] = circular_pocket(file, N, b, Fd, Fls, P0, Di, Do, dr, h, dz, addhe
 
 		fprintf(file, 'N%d G01 Z%.4f F%.2f\n', N, zs(n), Fd); N = N + 1;
 
-		for r = linspace(Ri, Ro, rinc)
+		rs = linspace(Ri, Ro, rinc);
+
+		if (rdir < 0) 
+			rs = flip(rs);
+		end
+
+		for r = rs
 
 			Fl = Fls(2);
 
@@ -138,6 +151,7 @@ function [N] = circular_pocket(file, N, b, Fd, Fls, P0, Di, Do, dr, h, dz, addhe
 				N = N + 1;
 			end
 		end
+		fprintf(file, 'N%d G00 X%.4f Y%.4f\n', N, X0, rs(1) + Y0);
 	end
 
 	fprintf(file, 'N%d G00 Z%.4f\n', N, Zsafe); N = N + 1;

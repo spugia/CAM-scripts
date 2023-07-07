@@ -133,6 +133,10 @@ function [N] = circular_pocket(file, N, b, Fd, Fls, P0, Di, Do, dr, h, dz, addhe
 			rs = flip(rs);
 		end
 
+		if (rs(1) == rs(2))
+			rs = rs(1);
+		end
+
 		for r = rs
 
 			Fl = Fls(2);

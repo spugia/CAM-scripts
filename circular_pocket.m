@@ -115,23 +115,23 @@ function [N] = circular_pocket(file, N, b, Fd, Fls, P0, Di, Do, dr, h, dz, addhe
 		rinc = 1;
 	end
 
+	rs = linspace(Ri, Ro, rinc);
+
+	if (rdir < 0) 
+		rs = flip(rs);
+	end
+
 	zs = linspace(Z0 - h / zinc, Z0 - h, zinc);
 
 	for n = [1 : 1 : length(zs)]
 
-		fprintf(file, 'N%d G00 X%.4f Y%.4f\n', N, X0, Y0+Ri); N = N + 1;
+		fprintf(file, 'N%d G00 X%.4f Y%.4f\n', N, X0, Y0+rs(1)); N = N + 1;
 		
 		if (n == 1) 
 			fprintf(file, 'N%d G00 Z%.4f\n', N, Z0); N = N + 1;
 		end
 
 		fprintf(file, 'N%d G01 Z%.4f F%.2f\n', N, zs(n), Fd); N = N + 1;
-
-		rs = linspace(Ri, Ro, rinc);
-
-		if (rdir < 0) 
-			rs = flip(rs);
-		end
 
 		if (length(rs) > 1 && rs(1) == rs(2))
 			rs = rs(1);
@@ -141,9 +141,9 @@ function [N] = circular_pocket(file, N, b, Fd, Fls, P0, Di, Do, dr, h, dz, addhe
 
 			Fl = Fls(2);
 
-			if (r == Ri)
+			if (r == rs(1))
 				F = Fls(1);
-			elseif (r == Ro)
+			elseif (r == rs(end))
 				F = Fls(2);
 			end
 
@@ -155,6 +155,7 @@ function [N] = circular_pocket(file, N, b, Fd, Fls, P0, Di, Do, dr, h, dz, addhe
 				N = N + 1;
 			end
 		end
+
 		fprintf(file, 'N%d G00 X%.4f Y%.4f\n', N, X0, rs(1) + Y0);
 	end
 
